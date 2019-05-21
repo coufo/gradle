@@ -63,11 +63,11 @@ import static org.gradle.internal.fingerprint.classpath.impl.ClasspathFingerprin
 public class ClasspathFingerprintingStrategy extends AbstractFingerprintingStrategy {
 
     private final NonJarFingerprintingStrategy nonZipFingerprintingStrategy;
-    private final ResourceFilter classpathResourceFilter;
+    final ResourceFilter classpathResourceFilter;
     private final ResourceSnapshotterCacheService cacheService;
-    private final ResourceHasher classpathResourceHasher;
+    final ResourceHasher classpathResourceHasher;
     private final ZipHasher zipHasher;
-    private final StringInterner stringInterner;
+    final StringInterner stringInterner;
     private final HashCode zipHasherConfigurationHash;
 
     private ClasspathFingerprintingStrategy(String identifier, NonJarFingerprintingStrategy nonZipFingerprintingStrategy, ResourceHasher classpathResourceHasher, ResourceFilter classpathResourceFilter, ResourceSnapshotterCacheService cacheService, StringInterner stringInterner) {
@@ -128,7 +128,7 @@ public class ClasspathFingerprintingStrategy extends AbstractFingerprintingStrat
 
     private class ClasspathContentFingerprintingVisitor implements FileSystemSnapshotVisitor {
         private final ClasspathFingerprintVisitor delegate;
-        private final RelativePathSegmentsTracker relativePathSegmentsTracker = new RelativePathSegmentsTracker();
+        final RelativePathSegmentsTracker relativePathSegmentsTracker = new RelativePathSegmentsTracker();
         private final Factory<String[]> relativePathFactory = new Factory<String[]>() {
             @Override
             public String[] create() {
@@ -180,7 +180,7 @@ public class ClasspathFingerprintingStrategy extends AbstractFingerprintingStrat
     }
 
     @Nullable
-    private HashCode fingerprintRootFile(RegularFileSnapshot fileSnapshot) {
+    HashCode fingerprintRootFile(RegularFileSnapshot fileSnapshot) {
         if (ZipHasher.isZipFile(fileSnapshot.getName())) {
             return fingerprintZipContents(fileSnapshot);
         }

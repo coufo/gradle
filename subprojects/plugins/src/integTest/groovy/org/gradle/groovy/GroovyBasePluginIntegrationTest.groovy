@@ -50,9 +50,9 @@ task verify {
 
         where:
         dependency                                  | jarFile
-        "org.codehaus.groovy:groovy-all:2.5.4"      | "groovy-all-2.5.4.jar"
-        "org.codehaus.groovy:groovy:2.5.4"          | "groovy-2.5.4.jar"
-        "org.codehaus.groovy:groovy-all:2.5.4:indy" | "groovy-all-2.5.4-indy.jar"
+        "org.codehaus.groovy:groovy:2.5.7"      | "groovy-all-2.5.7.jar"
+        "org.codehaus.groovy:groovy:2.5.7"          | "groovy-2.5.7.jar"
+        "org.codehaus.groovy:groovy:2.5.7:indy" | "groovy-all-2.5.7-indy.jar"
     }
 
     def "only resolves source class path feeding into inferred Groovy class path if/when the latter is actually used (but not during autowiring)"() {
@@ -66,7 +66,7 @@ sourceSets {
 ${mavenCentralRepository()}
 
 dependencies {
-    customCompile "org.codehaus.groovy:groovy-all:2.5.4"
+    customCompile "org.codehaus.groovy:groovy:2.5.7"
 }
 
 task groovydoc(type: Groovydoc) {

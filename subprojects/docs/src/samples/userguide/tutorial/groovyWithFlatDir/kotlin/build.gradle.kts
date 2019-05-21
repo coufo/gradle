@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation(module("org.codehaus.groovy:groovy:2.5.4") {
+    implementation(module("org.codehaus.groovy:groovy:2.5.7") {
         dependency("org.ow2.asm:asm-all:5.0.3")
         dependency("antlr:antlr:2.7.7")
         dependency("commons-cli:commons-cli:1.2")

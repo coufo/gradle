@@ -47,7 +47,7 @@ targetCompatibility = ${MultiVersionIntegrationSpec.version}
 ${mavenCentralRepository()}
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.5.4'
+    compile 'org.codehaus.groovy:groovy:2.5.7'
 }
 
 tasks.withType(AbstractCompile) {

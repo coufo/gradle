@@ -186,7 +186,7 @@ apply plugin: "java"
 ${mavenCentralRepository()}
 
 dependencies {
-    compile "org.codehaus.groovy:groovy:2.5.4"
+    compile "org.codehaus.groovy:groovy:2.5.7"
 }
 """
     }

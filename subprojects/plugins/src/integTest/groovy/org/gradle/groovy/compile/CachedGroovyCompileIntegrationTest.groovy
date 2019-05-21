@@ -38,7 +38,7 @@ class CachedGroovyCompileIntegrationTest extends AbstractCachedCompileIntegratio
             ${mavenCentralRepository()}
 
             dependencies {
-                compile 'org.codehaus.groovy:groovy-all:2.5.4'
+                compile 'org.codehaus.groovy:groovy:2.5.7'
             }
         """.stripIndent()
 
@@ -72,7 +72,7 @@ class CachedGroovyCompileIntegrationTest extends AbstractCachedCompileIntegratio
             plugins { id 'groovy' }
 
             ${mavenCentralRepository()}
-            dependencies { compile 'org.codehaus.groovy:groovy-all:2.5.4' }
+            dependencies { compile 'org.codehaus.groovy:groovy:2.5.7' }
         """.stripIndent()
 
         when:

@@ -42,7 +42,7 @@ class SamplesResolutionStrategyIntegrationTest extends AbstractIntegrationSpec {
         mavenRepo.module("org", "bar").publish()
         mavenRepo.module("org.gradle", "gradle-core", "1.4").publish()
         mavenRepo.module("org.software", "some-library", "1.2.1").publish()
-        mavenRepo.module("org.codehaus", "groovy", "2.4.10").publish()
+        mavenRepo.module("org.codehaus", "groovy", "2.5.4").publish()
         mavenRepo.module("org.slf4j", "log4j-over-slf4j", "1.7.10").publish()
 
         dslDir.file(buildScript) << buildScriptUpdate(dsl)
@@ -71,7 +71,7 @@ class SamplesResolutionStrategyIntegrationTest extends AbstractIntegrationSpec {
                     conf "org.gradle:gradle-core:1.0"
                     conf "org:bar:default"
                     conf "org.software:some-library:1.2"
-                    conf "org.codehaus:groovy-all:2.4.10"
+                    conf "org.codehaus:groovy-all:2.5.4"
                     conf "log4j:log4j:1.2"
                 }
                 task resolveConf { doLast { configurations.conf.files } }
@@ -86,7 +86,7 @@ class SamplesResolutionStrategyIntegrationTest extends AbstractIntegrationSpec {
                     "conf"("org.gradle:gradle-core:1.0")
                     "conf"("org:bar:default")
                     "conf"("org.software:some-library:1.2")
-                    "conf"("org.codehaus:groovy-all:2.4.10")
+                    "conf"("org.codehaus:groovy-all:2.5.4")
                     "conf"("log4j:log4j:1.2")
                 }
                 task("resolveConf") { doLast { configurations["conf"].files } }

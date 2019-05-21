@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.codehaus.groovy:groovy-all:2.4.15")
+    implementation("org.codehaus.groovy:groovy-all:2.5.4")
 // end::groovy-dependency[]
 // end::all[]
     testImplementation("junit:junit:4.12")

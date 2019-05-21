@@ -18,7 +18,7 @@ package org.gradle.groovy.compile
 
 import org.gradle.integtests.fixtures.TargetVersions
 
-@TargetVersions(['2.4.10:indy'])
+@TargetVersions(['2.5.4:indy'])
 class InvokeDynamicGroovyCompilerSpec extends ApiGroovyCompilerIntegrationSpec {
     def canEnableAndDisableInvokeDynamicOptimization() {
         when:

@@ -21,47 +21,47 @@ import spock.lang.Specification
 class GroovyJarFileTest extends Specification {
     def "parse non-Groovy file"() {
         expect:
-        GroovyJarFile.parse(new File("groovy-other-2.0.5.jar")) == null
-        GroovyJarFile.parse(new File("groovy-2.0.5.zip")) == null
+        GroovyJarFile.parse(new File("groovy-other-2.5.4.jar")) == null
+        GroovyJarFile.parse(new File("groovy-2.5.4.zip")) == null
     }
 
     def "parse 'groovy' Jar"() {
-        def jar = GroovyJarFile.parse(new File("/lib/groovy-2.0.5.jar"))
+        def jar = GroovyJarFile.parse(new File("/lib/groovy-2.5.4.jar"))
 
         expect:
         jar != null
-        jar.file == new File("/lib/groovy-2.0.5.jar")
+        jar.file == new File("/lib/groovy-2.5.4.jar")
         jar.baseName == "groovy"
-        jar.version == VersionNumber.parse("2.0.5")
+        jar.version == VersionNumber.parse("2.5.4")
         !jar.groovyAll
         !jar.indy
-        jar.dependencyNotation == "org.codehaus.groovy:groovy:2.0.5"
+        jar.dependencyNotation == "org.codehaus.groovy:groovy:2.5.4"
     }
 
     def "parse 'groovy-all' Jar"() {
-        def jar = GroovyJarFile.parse(new File("/lib/groovy-all-2.0.5.jar"))
+        def jar = GroovyJarFile.parse(new File("/lib/groovy-all-2.5.4.jar"))
 
         expect:
         jar != null
-        jar.file == new File("/lib/groovy-all-2.0.5.jar")
+        jar.file == new File("/lib/groovy-all-2.5.4.jar")
         jar.baseName == "groovy-all"
-        jar.version == VersionNumber.parse("2.0.5")
+        jar.version == VersionNumber.parse("2.5.4")
         jar.groovyAll
         !jar.indy
-        jar.dependencyNotation == "org.codehaus.groovy:groovy-all:2.0.5"
+        jar.dependencyNotation == "org.codehaus.groovy:groovy-all:2.5.4"
 
     }
 
     def "parse indy Jar"() {
-        def jar = GroovyJarFile.parse(new File("/lib/groovy-2.0.5-indy.jar"))
+        def jar = GroovyJarFile.parse(new File("/lib/groovy-2.5.4-indy.jar"))
 
         expect:
         jar != null
-        jar.file == new File("/lib/groovy-2.0.5-indy.jar")
+        jar.file == new File("/lib/groovy-2.5.4-indy.jar")
         jar.baseName == "groovy"
-        jar.version == VersionNumber.parse("2.0.5")
+        jar.version == VersionNumber.parse("2.5.4")
         !jar.groovyAll
         jar.indy
-        jar.dependencyNotation == "org.codehaus.groovy:groovy:2.0.5:indy"
+        jar.dependencyNotation == "org.codehaus.groovy:groovy:2.5.4:indy"
     }
 }

@@ -48,7 +48,7 @@ apply plugin: 'scala'
 
 ${mavenCentralRepository()}
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.10'
+    compile 'org.codehaus.groovy:groovy-all:2.5.4'
     compile 'org.scala-lang:scala-library:2.11.12'
 }
 

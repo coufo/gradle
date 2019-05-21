@@ -37,7 +37,7 @@ class CachedJavaCompileIntegrationTest extends AbstractCachedCompileIntegrationT
             ${mavenCentralRepository()}
 
             dependencies {
-                compile 'org.codehaus.groovy:groovy-all:2.4.10'
+                compile 'org.codehaus.groovy:groovy-all:2.5.4'
             }
         """.stripIndent()
 

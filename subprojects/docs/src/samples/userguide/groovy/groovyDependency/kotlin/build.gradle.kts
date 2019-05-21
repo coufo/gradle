@@ -8,7 +8,7 @@ repositories {
 
 // tag::groovy-test-dependency[]
 dependencies {
-    testImplementation("org.codehaus.groovy:groovy-all:2.4.15")
+    testImplementation("org.codehaus.groovy:groovy-all:2.5.4")
 }
 // end::groovy-test-dependency[]
 

@@ -31,7 +31,7 @@ class TestNGConsoleLoggingIntegrationTest extends AbstractIntegrationSpec {
             ${mavenCentralRepository()}
 
             dependencies {
-                compile "org.codehaus.groovy:groovy:2.4.10"
+                compile "org.codehaus.groovy:groovy:2.5.4"
                 testCompile "org.testng:testng:6.3.1"
             }
 
@@ -120,7 +120,7 @@ Gradle suite FAILED
             ${mavenCentralRepository()}
 
             dependencies {
-                compile "org.codehaus.groovy:groovy:2.4.10"
+                compile "org.codehaus.groovy:groovy:2.5.4"
                 testCompile "org.testng:testng:6.3.1"
             }
 

@@ -36,7 +36,7 @@ def someDependency = new DefaultSelfResolvingDependency(files('foo.txt'))
 dependencies {
     conf someDependency
     conf "org.mockito:mockito-core:1.8"
-    conf group: 'org.spockframework', name: 'spock-core', version: '1.0'
+    conf group: 'org.spockframework', name: 'spock-core', version: '1.3-groovy-2.5'
     conf('org.test:configured') {
         version {
            prefer '1.1'
@@ -57,7 +57,7 @@ task checkDeps {
         def deps = configurations.conf.incoming.dependencies
         assert deps.contains(someDependency)
         assert deps.find { it instanceof ExternalDependency && it.group == 'org.mockito' && it.name == 'mockito-core' && it.version == '1.8'  }
-        assert deps.find { it instanceof ExternalDependency && it.group == 'org.spockframework' && it.name == 'spock-core' && it.version == '1.0'  }
+        assert deps.find { it instanceof ExternalDependency && it.group == 'org.spockframework' && it.name == 'spock-core' && it.version == '1.3-groovy-2.5'  }
         def configuredDep = deps.find { it instanceof ExternalDependency && it.group == 'org.test' && it.name == 'configured' }
         assert configuredDep.version == '1.1'
         assert configuredDep.transitive == false

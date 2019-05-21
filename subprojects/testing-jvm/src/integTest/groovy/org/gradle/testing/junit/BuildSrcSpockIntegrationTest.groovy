@@ -39,7 +39,7 @@ dependencies {
     compile localGroovy()
 
     testCompile '$dependencyNotation',
-        'org.spockframework:spock-core:1.0-groovy-2.4@jar',
+        'org.spockframework:spock-core:1.3-groovy-2.5@jar',
         'cglib:cglib:3.2.6',
         'org.objenesis:objenesis:1.2'
 }
@@ -93,7 +93,7 @@ repositories {
 
 dependencies {
     testCompile localGroovy()
-    testCompile '$dependencyNotation', 'org.spockframework:spock-core:1.0-groovy-2.4@jar'
+    testCompile '$dependencyNotation', 'org.spockframework:spock-core:1.3-groovy-2.5@jar'
 }
 """
     }

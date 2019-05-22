@@ -30,16 +30,7 @@ public class SimpleModelRuleDescriptor extends AbstractModelRuleDescriptor {
     private final Factory<String> factory;
 
     public SimpleModelRuleDescriptor(final Factory<String> descriptor) {
-        this.factory = new Factory<String>() {
-            String cachedValue;
-            @Override
-            public String create() {
-                if (cachedValue == null) {
-                    cachedValue = STRING_INTERNER.intern(descriptor.create());
-                }
-                return cachedValue;
-            }
-        };
+        this.factory = new StringFactory(descriptor);
     }
 
     public SimpleModelRuleDescriptor(String descriptor) {
@@ -83,5 +74,22 @@ public class SimpleModelRuleDescriptor extends AbstractModelRuleDescriptor {
     @Override
     public int hashCode() {
         return Objects.hashCode(getDescriptor());
+    }
+
+    private static class StringFactory implements Factory<String> {
+        private final Factory<String> descriptor;
+        String cachedValue;
+
+        public StringFactory(Factory<String> descriptor) {
+            this.descriptor = descriptor;
+        }
+
+        @Override
+        public String create() {
+            if (cachedValue == null) {
+                cachedValue = STRING_INTERNER.intern(descriptor.create());
+            }
+            return cachedValue;
+        }
     }
 }

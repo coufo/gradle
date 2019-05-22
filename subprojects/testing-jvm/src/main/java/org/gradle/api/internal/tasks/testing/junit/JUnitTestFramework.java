@@ -53,14 +53,7 @@ public class JUnitTestFramework implements TestFramework {
 
     @Override
     public Action<WorkerProcessBuilder> getWorkerConfigurationAction() {
-        return new Action<WorkerProcessBuilder>() {
-            @Override
-            public void execute(WorkerProcessBuilder workerProcessBuilder) {
-                workerProcessBuilder.sharedPackages("junit.framework");
-                workerProcessBuilder.sharedPackages("junit.extensions");
-                workerProcessBuilder.sharedPackages("org.junit");
-            }
-        };
+        return new WorkerProcessBuilderAction();
     }
 
     @Override
@@ -87,6 +80,15 @@ public class JUnitTestFramework implements TestFramework {
         @Override
         public TestClassProcessor create(ServiceRegistry serviceRegistry) {
             return new JUnitTestClassProcessor(spec, serviceRegistry.get(IdGenerator.class), serviceRegistry.get(ActorFactory.class), serviceRegistry.get(Clock.class));
+        }
+    }
+
+    private static class WorkerProcessBuilderAction implements Action<WorkerProcessBuilder> {
+        @Override
+        public void execute(WorkerProcessBuilder workerProcessBuilder) {
+            workerProcessBuilder.sharedPackages("junit.framework");
+            workerProcessBuilder.sharedPackages("junit.extensions");
+            workerProcessBuilder.sharedPackages("org.junit");
         }
     }
 }

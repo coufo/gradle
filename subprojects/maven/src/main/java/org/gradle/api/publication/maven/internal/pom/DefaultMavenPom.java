@@ -150,12 +150,7 @@ public class DefaultMavenPom implements MavenPom {
 
     @Override
     public DefaultMavenPom project(final Action<? super GroovyObject> action) {
-        return project(new Closure(this, this) {
-            @SuppressWarnings("unused")
-            public void doCall() {
-                action.execute((GroovyObject) getDelegate());
-            }
-        });
+        return project(new MyClosure(action));
     }
 
     @Override
@@ -261,5 +256,19 @@ public class DefaultMavenPom implements MavenPom {
     public DefaultMavenPom withXml(final Action<XmlProvider> action) {
         withXmlActions.addAction(action);
         return this;
+    }
+
+    private class MyClosure extends Closure {
+        private final Action<? super GroovyObject> action;
+
+        public MyClosure(Action<? super GroovyObject> action) {
+            super(DefaultMavenPom.this, DefaultMavenPom.this);
+            this.action = action;
+        }
+
+        @SuppressWarnings("unused")
+        public void doCall() {
+            action.execute((GroovyObject) getDelegate());
+        }
     }
 }

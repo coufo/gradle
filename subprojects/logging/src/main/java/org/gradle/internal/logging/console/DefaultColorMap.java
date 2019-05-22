@@ -51,15 +51,7 @@ public class DefaultColorMap implements ColorMap {
      */
     private final Map<String, Color> colorBySpec = new HashMap<String, Color>();
 
-    private final Color noDecoration = new Color() {
-        @Override
-        public void on(Ansi ansi) {
-        }
-
-        @Override
-        public void off(Ansi ansi) {
-        }
-    };
+    private final Color noDecoration = new MyColor();
 
     public DefaultColorMap() {
         addDefault(Info, "yellow");
@@ -279,6 +271,16 @@ public class DefaultColorMap implements ColorMap {
             for (Color color : Lists.reverse(colors)) {
                 color.off(ansi);
             }
+        }
+    }
+
+    private static class MyColor implements Color {
+        @Override
+        public void on(Ansi ansi) {
+        }
+
+        @Override
+        public void off(Ansi ansi) {
         }
     }
 }

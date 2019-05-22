@@ -30,11 +30,7 @@ public class StreamBackedStandardOutputListener implements StandardOutputListene
         if (appendable instanceof Flushable) {
             flushable = (Flushable) appendable;
         } else {
-            flushable = new Flushable() {
-                @Override
-                public void flush() throws IOException {
-                }
-            };
+            flushable = new MyFlushable();
         }
     }
 
@@ -49,6 +45,12 @@ public class StreamBackedStandardOutputListener implements StandardOutputListene
             flushable.flush();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private static class MyFlushable implements Flushable {
+        @Override
+        public void flush() throws IOException {
         }
     }
 }

@@ -84,17 +84,7 @@ public class ArtifactRepositoriesPluginResolver implements PluginResolver {
     }
 
     private void handleFound(PluginResolutionResult result, final PluginRequestInternal pluginRequest, final Dependency markerDependency) {
-        result.found("Plugin Repositories", new PluginResolution() {
-            @Override
-            public PluginId getPluginId() {
-                return pluginRequest.getId();
-            }
-
-            @Override
-            public void execute(@Nonnull PluginResolveContext context) {
-                context.addLegacy(pluginRequest.getId(), markerDependency);
-            }
-        });
+        result.found("Plugin Repositories", new MyPluginResolution(pluginRequest, markerDependency));
     }
 
     private void handleNotFound(PluginResolutionResult result, String message) {
@@ -130,5 +120,25 @@ public class ArtifactRepositoriesPluginResolver implements PluginResolver {
 
     private String getNotation(Dependency dependency) {
         return Joiner.on(':').join(dependency.getGroup(), dependency.getName(), dependency.getVersion());
+    }
+
+    private static class MyPluginResolution implements PluginResolution {
+        private final PluginRequestInternal pluginRequest;
+        private final Dependency markerDependency;
+
+        public MyPluginResolution(PluginRequestInternal pluginRequest, Dependency markerDependency) {
+            this.pluginRequest = pluginRequest;
+            this.markerDependency = markerDependency;
+        }
+
+        @Override
+        public PluginId getPluginId() {
+            return pluginRequest.getId();
+        }
+
+        @Override
+        public void execute(@Nonnull PluginResolveContext context) {
+            context.addLegacy(pluginRequest.getId(), markerDependency);
+        }
     }
 }

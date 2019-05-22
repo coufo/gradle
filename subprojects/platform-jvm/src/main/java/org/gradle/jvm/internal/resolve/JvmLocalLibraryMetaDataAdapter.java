@@ -78,27 +78,7 @@ public class JvmLocalLibraryMetaDataAdapter implements LocalLibraryMetaDataAdapt
             UsageKind usage = entry.getKey();
             final List<PublishArtifact> publishArtifacts = entry.getValue();
             metadata.addArtifacts(usage.getConfigurationName(), publishArtifacts);
-            metadata.addVariant(usage.getConfigurationName(), new OutgoingVariant() {
-                @Override
-                public DisplayName asDescribable() {
-                    return Describables.of(metadata.getId());
-                }
-
-                @Override
-                public AttributeContainerInternal getAttributes() {
-                    return ImmutableAttributes.EMPTY;
-                }
-
-                @Override
-                public Set<? extends PublishArtifact> getArtifacts() {
-                    return new LinkedHashSet<PublishArtifact>(publishArtifacts);
-                }
-
-                @Override
-                public Set<? extends OutgoingVariant> getChildren() {
-                    return ImmutableSet.of();
-                }
-            });
+            metadata.addVariant(usage.getConfigurationName(), new MyOutgoingVariant(metadata, publishArtifacts));
         }
         return metadata;
     }
@@ -179,4 +159,33 @@ public class JvmLocalLibraryMetaDataAdapter implements LocalLibraryMetaDataAdapt
         }
     }
 
+    private static class MyOutgoingVariant implements OutgoingVariant {
+        private final DefaultLibraryLocalComponentMetadata metadata;
+        private final List<PublishArtifact> publishArtifacts;
+
+        public MyOutgoingVariant(DefaultLibraryLocalComponentMetadata metadata, List<PublishArtifact> publishArtifacts) {
+            this.metadata = metadata;
+            this.publishArtifacts = publishArtifacts;
+        }
+
+        @Override
+        public DisplayName asDescribable() {
+            return Describables.of(metadata.getId());
+        }
+
+        @Override
+        public AttributeContainerInternal getAttributes() {
+            return ImmutableAttributes.EMPTY;
+        }
+
+        @Override
+        public Set<? extends PublishArtifact> getArtifacts() {
+            return new LinkedHashSet<PublishArtifact>(publishArtifacts);
+        }
+
+        @Override
+        public Set<? extends OutgoingVariant> getChildren() {
+            return ImmutableSet.of();
+        }
+    }
 }

@@ -58,6 +58,7 @@ import org.gradle.api.publish.VersionMappingStrategy;
 import org.gradle.api.publish.internal.CompositePublicationArtifactSet;
 import org.gradle.api.publish.internal.DefaultPublicationArtifactSet;
 import org.gradle.api.publish.internal.PublicationArtifactSet;
+import org.gradle.api.publish.internal.PublicationInternal;
 import org.gradle.api.publish.internal.validation.PublicationWarningsCollector;
 import org.gradle.api.publish.internal.versionmapping.VersionMappingStrategyInternal;
 import org.gradle.api.publish.ivy.IvyArtifact;
@@ -541,17 +542,7 @@ public class DefaultIvyPublication implements IvyPublicationInternal {
     @Override
     public PublishedFile getPublishedFile(PublishArtifact source) {
         final String publishedUrl = getPublishedUrl(source);
-        return new PublishedFile() {
-            @Override
-            public String getName() {
-                return publishedUrl;
-            }
-
-            @Override
-            public String getUri() {
-                return publishedUrl;
-            }
-        };
+        return new MyPublishedFile(publishedUrl);
     }
 
     @Override
@@ -569,5 +560,23 @@ public class DefaultIvyPublication implements IvyPublicationInternal {
     @Override
     public Set<IvyExcludeRule> getGlobalExcludes() {
         return globalExcludes;
+    }
+
+    private static class MyPublishedFile implements PublishedFile {
+        private final String publishedUrl;
+
+        public MyPublishedFile(String publishedUrl) {
+            this.publishedUrl = publishedUrl;
+        }
+
+        @Override
+        public String getName() {
+            return publishedUrl;
+        }
+
+        @Override
+        public String getUri() {
+            return publishedUrl;
+        }
     }
 }

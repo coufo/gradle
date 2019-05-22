@@ -18,6 +18,7 @@ package org.gradle.internal.logging.source;
 
 import org.gradle.api.logging.LogLevel;
 import org.gradle.internal.logging.config.LoggingSourceSystem;
+import org.gradle.internal.logging.config.LoggingSystem;
 
 public class NoOpLoggingSystem implements StdOutLoggingSystem, StdErrLoggingSystem, LoggingSourceSystem {
     @Override
@@ -39,6 +40,9 @@ public class NoOpLoggingSystem implements StdOutLoggingSystem, StdErrLoggingSyst
     public void restore(Snapshot state) {}
 
     private Snapshot dummy() {
-        return new Snapshot() {};
+        return new MySnapshot();
+    }
+
+    private static class MySnapshot implements Snapshot {
     }
 }

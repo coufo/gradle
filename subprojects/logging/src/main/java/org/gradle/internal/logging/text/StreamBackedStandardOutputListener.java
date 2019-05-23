@@ -19,7 +19,10 @@ package org.gradle.internal.logging.text;
 import org.gradle.api.UncheckedIOException;
 import org.gradle.api.logging.StandardOutputListener;
 
-import java.io.*;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 public class StreamBackedStandardOutputListener implements StandardOutputListener {
     private final Appendable appendable;

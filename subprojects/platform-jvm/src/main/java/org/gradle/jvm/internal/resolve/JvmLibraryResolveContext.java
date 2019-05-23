@@ -28,13 +28,13 @@ import org.gradle.api.internal.artifacts.ivyservice.dependencysubstitution.Depen
 import org.gradle.api.internal.artifacts.ivyservice.resolutionstrategy.DefaultResolutionStrategy;
 import org.gradle.api.internal.attributes.AttributeContainerInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
-import org.gradle.internal.locking.NoOpDependencyLockingProvider;
-import org.gradle.vcs.internal.VcsMappingsStore;
 import org.gradle.internal.Describables;
 import org.gradle.internal.DisplayName;
 import org.gradle.internal.component.model.ComponentResolveMetadata;
+import org.gradle.internal.locking.NoOpDependencyLockingProvider;
 import org.gradle.language.base.internal.model.DefaultLibraryLocalComponentMetadata;
 import org.gradle.platform.base.DependencySpec;
+import org.gradle.vcs.internal.VcsMappingsStore;
 
 import java.util.Set;
 

@@ -16,7 +16,6 @@
 
 package org.gradle.plugins.javascript.envjs.internal;
 
-import org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 

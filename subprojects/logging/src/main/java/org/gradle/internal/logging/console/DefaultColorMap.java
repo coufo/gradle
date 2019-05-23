@@ -28,8 +28,17 @@ import java.util.Map;
 
 import static org.fusesource.jansi.Ansi.Attribute;
 import static org.fusesource.jansi.Ansi.Color.DEFAULT;
-import static org.gradle.internal.logging.text.StyledTextOutput.Style.*;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Description;
 import static org.gradle.internal.logging.text.StyledTextOutput.Style.Error;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Failure;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.FailureHeader;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Header;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Identifier;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Info;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.ProgressStatus;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.Success;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.SuccessHeader;
+import static org.gradle.internal.logging.text.StyledTextOutput.Style.UserInput;
 
 public class DefaultColorMap implements ColorMap {
     private static final String STATUS_BAR = "statusbar";

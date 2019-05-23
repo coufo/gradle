@@ -21,12 +21,15 @@ import org.gradle.api.internal.file.RelativeFile;
 import org.gradle.plugins.javascript.base.SourceTransformationException;
 import org.gradle.plugins.javascript.coffeescript.compile.internal.CoffeeScriptCompileDestinationCalculator;
 import org.gradle.plugins.javascript.coffeescript.compile.internal.SerializableCoffeeScriptCompileSpec;
-import org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 
-import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.*;
+import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.DefaultScopeOperation;
+import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.childScope;
+import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.parse;
+import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.readFile;
+import static org.gradle.plugins.javascript.rhino.worker.internal.RhinoWorkerUtils.writeFile;
 
 public class CoffeeScriptCompilerWorker implements CoffeeScriptCompilerProtocol {
 

@@ -54,11 +54,7 @@ public class GroovyJarFile {
     }
 
     public String getDependencyNotation() {
-        String result = "org.codehaus.groovy:" + getBaseName() + ":" + getVersion();
-        if (isIndy()) {
-            result += ":indy";
-        }
-        return result;
+        return "org.codehaus.groovy:" + getBaseName() + ":" + getVersion();
     }
 
     @Nullable

@@ -34,13 +34,10 @@ class GroovyRuntimeTest extends AbstractProjectBuilderSpec {
 
     def "inferred Groovy class path uses same 'groovy-all' Jar that is found on class path"() {
         when:
-        def classpath = project.groovyRuntime.inferGroovyClasspath([project.file("other.jar"), project.file("groovy-all-2.1.2${classifier}.jar")])
+        def classpath = project.groovyRuntime.inferGroovyClasspath([project.file("other.jar"), project.file("groovy-all-2.1.2.jar")])
 
         then:
-        classpath.singleFile == project.file("groovy-all-2.1.2${classifier}.jar")
-
-        where:
-        classifier << ["", "-indy"]
+        classpath.singleFile == project.file("groovy-all-2.1.2.jar")
     }
 
     @Unroll

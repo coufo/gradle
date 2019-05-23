@@ -51,17 +51,4 @@ class GroovyJarFileTest extends Specification {
         jar.dependencyNotation == "org.codehaus.groovy:groovy:2.5.7"
 
     }
-
-    def "parse indy Jar"() {
-        def jar = GroovyJarFile.parse(new File("/lib/groovy-2.5.7-indy.jar"))
-
-        expect:
-        jar != null
-        jar.file == new File("/lib/groovy-2.5.7-indy.jar")
-        jar.baseName == "groovy"
-        jar.version == VersionNumber.parse("2.5.7")
-        !jar.groovyAll
-        jar.indy
-        jar.dependencyNotation == "org.codehaus.groovy:groovy:2.5.7:indy"
-    }
 }

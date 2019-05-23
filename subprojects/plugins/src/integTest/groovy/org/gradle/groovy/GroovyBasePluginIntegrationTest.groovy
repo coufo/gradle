@@ -49,10 +49,9 @@ task verify {
         succeeds("verify")
 
         where:
-        dependency                                  | jarFile
-        "org.codehaus.groovy:groovy:2.5.7"      | "groovy-all-2.5.7.jar"
-        "org.codehaus.groovy:groovy:2.5.7"          | "groovy-2.5.7.jar"
-        "org.codehaus.groovy:groovy:2.5.7:indy" | "groovy-all-2.5.7-indy.jar"
+        dependency                         | jarFile
+        "org.codehaus.groovy:groovy:2.5.7" | "groovy-all-2.5.7.jar"
+        "org.codehaus.groovy:groovy:2.5.7" | "groovy-2.5.7.jar"
     }
 
     def "only resolves source class path feeding into inferred Groovy class path if/when the latter is actually used (but not during autowiring)"() {

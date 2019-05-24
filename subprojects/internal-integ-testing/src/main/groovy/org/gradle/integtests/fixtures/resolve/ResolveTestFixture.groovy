@@ -697,6 +697,15 @@ allprojects {
             return node
         }
 
+        NodeBuilder plainEdge(String requested, String id, String selectedModuleVersionId, @DelegatesTo(NodeBuilder) Closure cl) {
+            def node = graph.node(id, selectedModuleVersionId)
+            deps << new EdgeBuilder(this, requested, node)
+            cl.resolveStrategy = Closure.DELEGATE_ONLY
+            cl.delegate = node
+            cl.call()
+            return node
+        }
+
         /**
          * Defines a dependency of the current node.
          */

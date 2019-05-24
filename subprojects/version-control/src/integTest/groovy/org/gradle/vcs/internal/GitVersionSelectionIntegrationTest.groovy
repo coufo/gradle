@@ -31,7 +31,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
     GitHttpRepository repo = new GitHttpRepository(httpServer, 'dep', temporaryFolder.getTestDirectory())
 
     TestFile repoSettingsFile
-    def fixture = new ResolveTestFixture(buildFile)
+    def fixture = new ResolveTestFixture(buildFile, "compile")
 
     def setup() {
         httpServer.start()
@@ -86,7 +86,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:latest.integration", "project :test", "test:test:2.0") {
+                plainEdge("test:test:latest.integration", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -102,7 +102,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:latest.integration", "project :test", "test:test:3.0") {
+                plainEdge("test:test:latest.integration", "project :test", "test:test:3.0") {
                 }
             }
         }
@@ -120,7 +120,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:latest.integration", "project :test", "test:test:3.0") {
+                plainEdge("test:test:latest.integration", "project :test", "test:test:3.0") {
                 }
             }
         }
@@ -149,7 +149,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:2.0", "project :test", "test:test:2.0") {
+                plainEdge("test:test:2.0", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -162,7 +162,7 @@ class GitVersionSelectionIntegrationTest extends AbstractIntegrationSpec {
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:2.0", "project :test", "test:test:2.0") {
+                plainEdge("test:test:2.0", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -203,7 +203,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:2.0", "project :test", "test:test:2.0") {
+                plainEdge("test:test:2.0", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -216,7 +216,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:2.0", "project :test", "test:test:2.0") {
+                plainEdge("test:test:2.0", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -246,7 +246,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:${selector}", "project :test", "test:test:1.1") {
+                plainEdge("test:test:${selector}", "project :test", "test:test:1.1") {
                 }
             }
         }
@@ -263,7 +263,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:${selector}", "project :test", "test:test:1.2") {
+                plainEdge("test:test:${selector}", "project :test", "test:test:1.2") {
                 }
             }
         }
@@ -309,7 +309,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:${selector}", "project :test", "test:test:1.1") {
+                plainEdge("test:test:${selector}", "project :test", "test:test:1.1") {
                 }
             }
         }
@@ -322,7 +322,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test:${selector}", "project :test", "test:test:1.1") {
+                plainEdge("test:test:${selector}", "project :test", "test:test:1.1") {
                 }
             }
         }
@@ -385,7 +385,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test", "project :test", "test:test:2.0") {
+                plainEdge("test:test", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -401,7 +401,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test", "project :test", "test:test:3.0") {
+                plainEdge("test:test", "project :test", "test:test:3.0") {
                 }
             }
         }
@@ -414,7 +414,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test", "project :test", "test:test:3.0") {
+                plainEdge("test:test", "project :test", "test:test:3.0") {
                 }
             }
         }
@@ -456,7 +456,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test", "project :test", "test:test:2.0") {
+                plainEdge("test:test", "project :test", "test:test:2.0") {
                 }
             }
         }
@@ -469,7 +469,7 @@ Required by:
         then:
         fixture.expectGraph {
             root(":", "test:consumer:1.2") {
-                edge("test:test", "project :test", "test:test:2.0") {
+                plainEdge("test:test", "project :test", "test:test:2.0") {
                 }
             }
         }

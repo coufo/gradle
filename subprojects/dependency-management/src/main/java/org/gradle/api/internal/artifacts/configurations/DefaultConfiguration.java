@@ -419,6 +419,11 @@ public class DefaultConfiguration extends AbstractFileCollection implements Conf
     }
 
     @Override
+    public boolean isDeprecated() {
+        return alternativesForDeclaring != null;
+    }
+
+    @Override
     public boolean isDeprecatedForResolving() {
         return alternativesForResolving != null;
     }

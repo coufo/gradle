@@ -90,6 +90,11 @@ public interface ConfigurationInternal extends ResolveContext, Configuration, De
     List<String> getConsumptionAlternatives();
 
     /**
+     * @return true if this configuration is deprecated for removal
+     */
+    boolean isDeprecated();
+
+    /**
      * @return true if the resolvability of this configuration is deprecated
      */
     boolean isDeprecatedForResolving();

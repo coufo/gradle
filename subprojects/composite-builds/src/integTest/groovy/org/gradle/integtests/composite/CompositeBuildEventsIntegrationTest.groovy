@@ -56,7 +56,7 @@ class CompositeBuildEventsIntegrationTest extends AbstractCompositeBuildIntegrat
 
         buildA.buildFile << """
             task resolveArtifacts(type: Copy) {
-                from configurations.compile
+                from configurations.compileClasspath
                 into 'libs'
             }
 """
@@ -103,7 +103,7 @@ class CompositeBuildEventsIntegrationTest extends AbstractCompositeBuildIntegrat
         loggedOncePerBuild('gradle.buildFinished')
     }
 
-    def "fires build listener events for included build that provides buildscript and compile dependencies"() {
+    def "fires build listener events for included build that provides buildscript and implementation dependencies"() {
         given:
         def pluginBuild = pluginProjectBuild("pluginD")
         applyPlugin(buildA, "pluginD")

@@ -72,7 +72,7 @@ class CompositeBuildPluginDevelopmentIntegrationTest extends AbstractCompositeBu
 
         buildA.buildFile << """
             dependencies {
-                compile "org.test:pluginDependencyA:1.0"
+                implementation "org.test:pluginDependencyA:1.0"
             }
         """
         pluginDependencyA.buildFile << """
@@ -219,7 +219,7 @@ class CompositeBuildPluginDevelopmentIntegrationTest extends AbstractCompositeBu
         executed ":pluginDependencyA:jar"
     }
 
-    def "can use an included build that provides both a buildscript dependency and a compile dependency"() {
+    def "can use an included build that provides both a buildscript dependency and a implementation dependency"() {
         given:
         def buildB = multiProjectBuild("buildB", ['b1', 'b2']) {
             buildFile << """

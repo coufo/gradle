@@ -44,7 +44,7 @@ class ResolveTestFixture {
     private String defaultConfig = "default"
     private boolean buildArtifacts = true
 
-    ResolveTestFixture(TestFile buildFile, String config = "compile") {
+    ResolveTestFixture(TestFile buildFile, String config = "runtimeClasspath") {
         this.config = config
         this.buildFile = buildFile
     }
@@ -451,7 +451,7 @@ allprojects {
             return node(id, id, attrs)
         }
 
-        def node(String id, String moduleVersionId) {
+        def node(String id, String moduleVersionId, boolean classFolderIsArtifact = false) {
             def attrs
             if (moduleVersionId.matches(':\\w+:')) {
                 def parts = moduleVersionId.split(':')
@@ -471,6 +471,9 @@ allprojects {
                     id = "${attrs.group}:${attrs.module}:${attrs.version}"
                     moduleVersionId = id
                 }
+            }
+            if (classFolderIsArtifact) {
+                attrs += [classFolderIsArtifact: true]
             }
             return node(id, moduleVersionId, attrs)
         }
@@ -564,6 +567,7 @@ allprojects {
         private final Set<String> reasons = new TreeSet<String>()
         Set<Variant> variants = []
 
+        boolean classFolderIsArtifact
         boolean checkVariant
 
         NodeBuilder(String id, String moduleVersionId, Map attrs, GraphBuilder graph) {
@@ -571,6 +575,7 @@ allprojects {
             this.group = attrs.group
             this.module = attrs.module
             this.version = attrs.version
+            this.classFolderIsArtifact = attrs.classFolderIsArtifact
             this.moduleVersionId = moduleVersionId
             this.id = id
             if (attrs.variantName) {
@@ -579,15 +584,15 @@ allprojects {
         }
 
         Set<ExpectedArtifact> getArtifacts() {
-            return artifacts.empty && implicitArtifact ? [new ExpectedArtifact(group: group, module: module, version: version)] : artifacts
+            return artifacts.empty && implicitArtifact ? [new ExpectedArtifact(group: group, module: module, version: version, name: classFolderIsArtifact?'main':null, noType: classFolderIsArtifact)] : artifacts
         }
 
         String getReason() {
             reasons.empty ? (this == graph.root ? 'root' : 'requested') : reasons.join('!!')
         }
 
-        private NodeBuilder addNode(String id, String moduleVersionId = id) {
-            def node = graph.node(id, moduleVersionId)
+        private NodeBuilder addNode(String id, String moduleVersionId = id, boolean classFolderIsArtifact = false) {
+            def node = graph.node(id, moduleVersionId, classFolderIsArtifact)
             deps << new EdgeBuilder(this, node.id, node)
             return node
         }
@@ -625,10 +630,21 @@ allprojects {
         }
 
         /**
-         * Defines a dependency on the given project. The closure delegates to a {@link NodeBuilder} instance that represents the target node.
+         * Defines a dependency on the given java-library project. The closure delegates to a {@link NodeBuilder} instance that represents the target node.
          */
-        NodeBuilder project(String path, String value, @DelegatesTo(NodeBuilder) Closure cl) {
-            def node = addNode("project $path", value)
+        NodeBuilder project(String path, String moduleVersionId, @DelegatesTo(NodeBuilder) Closure cl) {
+            def node = addNode("project $path", moduleVersionId, true)
+            cl.resolveStrategy = Closure.DELEGATE_ONLY
+            cl.delegate = node
+            cl.call()
+            return node
+        }
+
+        /**
+         * Defines a dependency on the given plain (no java-library) project. The closure delegates to a {@link NodeBuilder} instance that represents the target node.
+         */
+        NodeBuilder plainProject(String path, String moduleVersionId, @DelegatesTo(NodeBuilder) Closure cl) {
+            def node = addNode("project $path", moduleVersionId, false)
             cl.resolveStrategy = Closure.DELEGATE_ONLY
             cl.delegate = node
             cl.call()
@@ -673,7 +689,7 @@ allprojects {
          * Defines a dependency from the current node to the given node. The closure delegates to a {@link NodeBuilder} instance that represents the target node.
          */
         NodeBuilder edge(String requested, String id, String selectedModuleVersionId, @DelegatesTo(NodeBuilder) Closure cl) {
-            def node = graph.node(id, selectedModuleVersionId)
+            def node = graph.node(id, selectedModuleVersionId, id.startsWith('project '))
             deps << new EdgeBuilder(this, requested, node)
             cl.resolveStrategy = Closure.DELEGATE_ONLY
             cl.delegate = node
@@ -752,6 +768,7 @@ allprojects {
          * Marks that this node was substituted in a composite.
          */
         NodeBuilder compositeSubstitute() {
+            classFolderIsArtifact = false
             reasons << 'composite build substitution'
             this
         }

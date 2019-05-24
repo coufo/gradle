@@ -403,7 +403,7 @@ rootProject.name = 'root'
             apply plugin : 'project-report'
 
             allprojects {
-                apply plugin: 'java'
+                apply plugin: 'java-library'
                 version = '1.0'
                 repositories {
                     maven { url "${mavenRepo.uri}" }
@@ -412,104 +412,104 @@ rootProject.name = 'root'
 
             project(":a") {
                dependencies {
-                    compile 'foo:bar:1.0'
+                    api 'foo:bar:1.0'
                 }
             }
 
             project(":b") {
                dependencies {
-                    compile 'foo:bar:0.5.dont.exist'
+                    api 'foo:bar:0.5.dont.exist'
                 }
             }
 
             project(":a:c") {
                dependencies {
-                    compile 'foo:bar:2.0'
+                    api 'foo:bar:2.0'
                }
             }
 
             project(":d") {
                dependencies {
-                    compile project(":e")
+                    api project(":e")
                 }
             }
 
             project(":e") {
                dependencies {
-                    compile 'foo:bar:2.0'
+                    api 'foo:bar:2.0'
                 }
             }
 
             dependencies {
-                compile project(":a"), project(":b"), project(":a:c"), project(":d")
+                api project(":a"), project(":b"), project(":a:c"), project(":d")
             }
         """
 
         when:
         run "htmlDependencyReport"
         def json = readGeneratedJson("root")
-        def compileConfiguration = json.project.configurations.find { it.name == "compile" }
+        def compileClasspathConfiguration = json.project.configurations.find { it.name == "compileClasspath" }
 
         then:
-        compileConfiguration
-        compileConfiguration.dependencies.size() == 4
-        compileConfiguration.dependencies[0].module == null
-        compileConfiguration.dependencies[0].name == "project :a"
-        compileConfiguration.dependencies[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[0].alreadyRendered == false
-        compileConfiguration.dependencies[0].hasConflict == false
-        compileConfiguration.dependencies[0].children.size() == 1
-        compileConfiguration.dependencies[0].children[0].module == "foo:bar"
-        compileConfiguration.dependencies[0].children[0].name == "foo:bar:1.0 \u27A1 2.0"
-        compileConfiguration.dependencies[0].children[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[0].children[0].alreadyRendered == false
-        compileConfiguration.dependencies[0].children[0].hasConflict == true
-        compileConfiguration.dependencies[0].children[0].children.empty
+        compileClasspathConfiguration
+        compileClasspathConfiguration.dependencies.size() == 4
+        compileClasspathConfiguration.dependencies[0].module == null
+        compileClasspathConfiguration.dependencies[0].name == "project :a"
+        compileClasspathConfiguration.dependencies[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[0].hasConflict == false
+        compileClasspathConfiguration.dependencies[0].children.size() == 1
+        compileClasspathConfiguration.dependencies[0].children[0].module == "foo:bar"
+        compileClasspathConfiguration.dependencies[0].children[0].name == "foo:bar:1.0 \u27A1 2.0"
+        compileClasspathConfiguration.dependencies[0].children[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[0].children[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[0].children[0].hasConflict == true
+        compileClasspathConfiguration.dependencies[0].children[0].children.empty
 
-        compileConfiguration.dependencies[1].module == null
-        compileConfiguration.dependencies[1].name == "project :b"
-        compileConfiguration.dependencies[1].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[1].alreadyRendered == false
-        compileConfiguration.dependencies[1].hasConflict == false
-        compileConfiguration.dependencies[1].children.size() == 1
-        compileConfiguration.dependencies[1].children[0].module == "foo:bar"
-        compileConfiguration.dependencies[1].children[0].name == "foo:bar:0.5.dont.exist \u27A1 2.0"
-        compileConfiguration.dependencies[1].children[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[1].children[0].alreadyRendered == false
-        compileConfiguration.dependencies[1].children[0].hasConflict == true
-        compileConfiguration.dependencies[1].children[0].children.empty
+        compileClasspathConfiguration.dependencies[1].module == null
+        compileClasspathConfiguration.dependencies[1].name == "project :b"
+        compileClasspathConfiguration.dependencies[1].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[1].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[1].hasConflict == false
+        compileClasspathConfiguration.dependencies[1].children.size() == 1
+        compileClasspathConfiguration.dependencies[1].children[0].module == "foo:bar"
+        compileClasspathConfiguration.dependencies[1].children[0].name == "foo:bar:0.5.dont.exist \u27A1 2.0"
+        compileClasspathConfiguration.dependencies[1].children[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[1].children[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[1].children[0].hasConflict == true
+        compileClasspathConfiguration.dependencies[1].children[0].children.empty
 
-        compileConfiguration.dependencies[2].module == null
-        compileConfiguration.dependencies[2].name == "project :a:c"
-        compileConfiguration.dependencies[2].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[2].alreadyRendered == false
-        compileConfiguration.dependencies[2].hasConflict == false
-        compileConfiguration.dependencies[2].children.size() == 1
-        compileConfiguration.dependencies[2].children[0].module == "foo:bar"
-        compileConfiguration.dependencies[2].children[0].name == "foo:bar:2.0"
-        compileConfiguration.dependencies[2].children[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[2].children[0].alreadyRendered == false
-        compileConfiguration.dependencies[2].children[0].hasConflict == false
-        compileConfiguration.dependencies[2].children[0].children.empty
+        compileClasspathConfiguration.dependencies[2].module == null
+        compileClasspathConfiguration.dependencies[2].name == "project :a:c"
+        compileClasspathConfiguration.dependencies[2].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[2].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[2].hasConflict == false
+        compileClasspathConfiguration.dependencies[2].children.size() == 1
+        compileClasspathConfiguration.dependencies[2].children[0].module == "foo:bar"
+        compileClasspathConfiguration.dependencies[2].children[0].name == "foo:bar:2.0"
+        compileClasspathConfiguration.dependencies[2].children[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[2].children[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[2].children[0].hasConflict == false
+        compileClasspathConfiguration.dependencies[2].children[0].children.empty
 
-        compileConfiguration.dependencies[3].module == null
-        compileConfiguration.dependencies[3].name == "project :d"
-        compileConfiguration.dependencies[3].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[3].alreadyRendered == false
-        compileConfiguration.dependencies[3].hasConflict == false
-        compileConfiguration.dependencies[3].children.size() == 1
-        compileConfiguration.dependencies[3].children[0].module == null
-        compileConfiguration.dependencies[3].children[0].name == "project :e"
-        compileConfiguration.dependencies[3].children[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[3].children[0].alreadyRendered == false
-        compileConfiguration.dependencies[3].children[0].hasConflict == false
-        compileConfiguration.dependencies[3].children[0].children.size() == 1
-        compileConfiguration.dependencies[3].children[0].children[0].module == "foo:bar"
-        compileConfiguration.dependencies[3].children[0].children[0].name == "foo:bar:2.0"
-        compileConfiguration.dependencies[3].children[0].children[0].resolvable == 'RESOLVED'
-        compileConfiguration.dependencies[3].children[0].children[0].alreadyRendered == false
-        compileConfiguration.dependencies[3].children[0].children[0].hasConflict == false
-        compileConfiguration.dependencies[3].children[0].children[0].children.empty
+        compileClasspathConfiguration.dependencies[3].module == null
+        compileClasspathConfiguration.dependencies[3].name == "project :d"
+        compileClasspathConfiguration.dependencies[3].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[3].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[3].hasConflict == false
+        compileClasspathConfiguration.dependencies[3].children.size() == 1
+        compileClasspathConfiguration.dependencies[3].children[0].module == null
+        compileClasspathConfiguration.dependencies[3].children[0].name == "project :e"
+        compileClasspathConfiguration.dependencies[3].children[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[3].children[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[3].children[0].hasConflict == false
+        compileClasspathConfiguration.dependencies[3].children[0].children.size() == 1
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].module == "foo:bar"
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].name == "foo:bar:2.0"
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].resolvable == 'RESOLVED'
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].alreadyRendered == false
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].hasConflict == false
+        compileClasspathConfiguration.dependencies[3].children[0].children[0].children.empty
     }
 
     void "doesn't fail if a configuration is not resolvable"() {

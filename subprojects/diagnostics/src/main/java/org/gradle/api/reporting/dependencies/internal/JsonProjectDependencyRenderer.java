@@ -28,6 +28,7 @@ import org.gradle.api.artifacts.component.ComponentIdentifier;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
 import org.gradle.api.artifacts.result.DependencyResult;
 import org.gradle.api.artifacts.result.ResolutionResult;
+import org.gradle.api.internal.artifacts.configurations.ConfigurationInternal;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionComparator;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionParser;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.VersionSelectorScheme;
@@ -39,6 +40,7 @@ import org.gradle.api.tasks.diagnostics.internal.insight.DependencyInsightReport
 import org.gradle.util.CollectionUtils;
 import org.gradle.util.GradleVersion;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -144,8 +146,23 @@ public class JsonProjectDependencyRenderer {
         json.call(overall);
     }
 
+    private List<Configuration> getNonDeprecatedConfigurations(Project project) {
+        List<Configuration> filteredConfigurations = new ArrayList<Configuration>();
+        for (Configuration e : project.getConfigurations()) {
+            ConfigurationInternal configuration = (ConfigurationInternal) e;
+            if (!configuration.isDeprecated()) {
+                filteredConfigurations.add(e);
+            }
+        }
+        return filteredConfigurations;
+    }
+
+    private boolean canBeResolved(Configuration configuration) {
+        return configuration.isCanBeResolved() && !((ConfigurationInternal) configuration).isDeprecatedForResolving();
+    }
+
     private List<Map> createConfigurations(Project project) {
-        Iterable<Configuration> configurations = project.getConfigurations();
+        Iterable<Configuration> configurations = getNonDeprecatedConfigurations(project);
         return CollectionUtils.collect(configurations, new Transformer<Map, Configuration>() {
             @Override
             public Map transform(Configuration configuration) {
@@ -161,7 +178,7 @@ public class JsonProjectDependencyRenderer {
     }
 
     private List createDependencies(Configuration configuration) {
-        if (configuration.isCanBeResolved()) {
+        if (canBeResolved(configuration)) {
             ResolutionResult result = configuration.getIncoming().getResolutionResult();
             RenderableDependency root = new RenderableModuleResult(result.getRoot());
             return createDependencyChildren(root, new HashSet<Object>());
@@ -215,7 +232,7 @@ public class JsonProjectDependencyRenderer {
 
     private Set<ModuleIdentifier> collectModules(Configuration configuration) {
         RenderableDependency root;
-        if (configuration.isCanBeResolved()) {
+        if (canBeResolved(configuration)) {
             ResolutionResult result = configuration.getIncoming().getResolutionResult();
             root = new RenderableModuleResult(result.getRoot());
         } else {

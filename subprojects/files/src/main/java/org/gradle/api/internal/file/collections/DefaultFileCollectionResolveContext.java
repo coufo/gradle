@@ -41,7 +41,7 @@ import java.util.List;
 
 public class DefaultFileCollectionResolveContext implements ResolvableFileCollectionResolveContext {
     protected final PathToFileResolver fileResolver;
-    private final List<Object> queue = new LinkedList<Object>();
+    private final List<Object> queue = new LinkedList<Object>(); // ArrayDeque?
     private List<Object> addTo = queue;
     private final Converter<? extends FileCollectionInternal> fileCollectionConverter;
     private final Converter<? extends FileTreeInternal> fileTreeConverter;
@@ -101,8 +101,8 @@ public class DefaultFileCollectionResolveContext implements ResolvableFileCollec
         return doResolve(new MinimalFileCollectionConverter());
     }
 
-    private <T> List<T> doResolve(Converter<? extends T> converter) {
-        List<T> result = new ArrayList<T>();
+    private <T> List<T> doResolve(Converter<? extends T> converter) { // TODO iterator?
+        List<T> result = new ArrayList<T>(queue.size());
         while (!queue.isEmpty()) {
             Object element = queue.remove(0);
             // TODO - need to sync with BuildDependenciesOnlyFileCollectionResolveContext
@@ -111,7 +111,7 @@ public class DefaultFileCollectionResolveContext implements ResolvableFileCollec
                 converter.convertInto(nestedContext, result, fileResolver);
             } else if (element instanceof FileCollectionContainer) {
                 FileCollectionContainer fileCollection = (FileCollectionContainer) element;
-                resolveNested(fileCollection, result, converter);
+                resolveNested(fileCollection);
             } else if (element instanceof FileCollection || element instanceof MinimalFileCollection) {
                 converter.convertInto(element, result, fileResolver);
             } else if (element instanceof Task) {
@@ -140,7 +140,7 @@ public class DefaultFileCollectionResolveContext implements ResolvableFileCollec
         return result;
     }
 
-    protected <T> void resolveNested(FileCollectionContainer fileCollection, List<T> result, Converter<? extends T> converter) {
+    protected void resolveNested(FileCollectionContainer fileCollection) {
         addTo = queue.subList(0, 0);
         try {
             fileCollection.visitContents(this);

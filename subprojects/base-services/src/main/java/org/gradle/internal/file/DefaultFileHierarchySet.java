@@ -188,12 +188,19 @@ public class DefaultFileHierarchySet {
             if (pathLength < endOfThisSegment) {
                 return false;
             }
-            for (int i = prefixLength - 1, j = endOfThisSegment - 1; i >= 0; i--, j--) {
-                if (prefix.charAt(i) != filePath.charAt(j)) {
-                    return false;
-                }
+            if (endsWith(filePath, prefixLength, endOfThisSegment)) {
+                return false;
             }
             return endOfThisSegment == pathLength || filePath.charAt(endOfThisSegment) == File.separatorChar;
+        }
+
+        private boolean endsWith(String filePath, int prefixLength, int endOfThisSegment) {
+            for (int i = prefixLength - 1, j = endOfThisSegment - 1; i >= 0; i--, j--) { // TODO optimize
+                if (prefix.charAt(i) != filePath.charAt(j)) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         boolean contains(String filePath, int offset) {

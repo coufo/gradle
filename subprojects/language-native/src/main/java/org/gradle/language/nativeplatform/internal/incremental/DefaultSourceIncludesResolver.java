@@ -331,7 +331,8 @@ public class DefaultSourceIncludesResolver implements SourceIncludesResolver {
         }
 
         public boolean startsWith(File sourceDir) {
-            return directories.size() > 0 && directories.get(0).searchDir.equals(sourceDir);
+            return directories.size() > 0
+                && Objects.equal(directories.get(0).searchDir.getAbsolutePath(), sourceDir.getAbsolutePath());
         }
     }
 

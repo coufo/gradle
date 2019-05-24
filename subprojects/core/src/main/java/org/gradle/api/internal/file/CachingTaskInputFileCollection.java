@@ -24,6 +24,8 @@ import org.gradle.api.internal.tasks.TaskResolver;
 import org.gradle.api.internal.tasks.properties.LifecycleAwareValue;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A {@link org.gradle.api.file.ConfigurableFileCollection} that can be used as a task input property. Caches the matching set of files during task execution, and discards the result after task execution.
@@ -48,11 +50,14 @@ public class CachingTaskInputFileCollection extends DefaultConfigurableFileColle
             if (cachedValue == null) {
                 DefaultFileCollectionResolveContext nested = new DefaultFileCollectionResolveContext(fileResolver);
                 super.visitContents(nested);
-                ImmutableSet.Builder<File> files = ImmutableSet.builder();
+
+                Map<String, File> fileMap = new HashMap<>();
                 for (FileCollectionInternal fileCollection : nested.resolveAsFileCollections()) {
-                    files.addAll(fileCollection);
+                    for (File file : fileCollection) {
+                        fileMap.put(file.getPath(), file);
+                    }
                 }
-                this.cachedValue = files.build();
+                this.cachedValue = ImmutableSet.copyOf(fileMap.values());
             }
             context.add(cachedValue);
         } else {

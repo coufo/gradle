@@ -25,9 +25,9 @@ interface StateSerializer {
 }
 
 
-typealias ValueSerializer = (Encoder) -> Unit
+typealias ValueSerializer = (Encoder, SerializationContext) -> Unit
 
 
 interface StateDeserializer {
-    fun read(decoder: Decoder): Any?
+    fun read(decoder: Decoder, context: DeserializationContext): Any?
 }
